@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cmake ..
-make 
-./jobSystem
+cmake -S -B ./build
+make -C ./build
+./build/jobSystem
