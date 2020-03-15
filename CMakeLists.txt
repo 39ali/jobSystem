@@ -3,7 +3,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 project(jobSystem)
 
-file (GLOB_RECURSE sources "src/*.cpp"  "src/*.h")
+file (GLOB_RECURSE sources "src/*.cpp")
 
 message("${sources}")
 set(SOURCE   ${sources} )
