@@ -1,6 +1,7 @@
 #include "jobSystem.h"
 #include <random>
 
+
 JobSystem::JobSystem(std::size_t worker_threads_count , std::size_t jobs_per_thread)
 {
     workers.reserve(worker_threads_count);
@@ -18,6 +19,7 @@ JobSystem::JobSystem(std::size_t worker_threads_count , std::size_t jobs_per_thr
     {
         workers[i].run();
     } 
+
 }
 
 JobSystem::~JobSystem(){
@@ -34,10 +36,12 @@ JobSystem::~JobSystem(){
 }
 
  JobWorker* JobSystem::get_random_worker(){
-      std::uniform_int_distribution<std::size_t> dist{0, workers.size()-1};
-    std::default_random_engine randomEngine{std::random_device()()};
-
-     int index =0 ; //dist(randomEngine);
+   
+   static std::random_device rd;
+   static std::mt19937 gen=std::mt19937{rd()};
+   static std::uniform_int_distribution<std::size_t> dist= std::uniform_int_distribution<std::size_t>{0, workers.size()-1};
+   int index =dist(gen);
+   
     JobWorker* worker = &workers[index];
     
     if(worker->is_running())

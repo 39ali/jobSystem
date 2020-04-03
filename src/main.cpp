@@ -47,10 +47,10 @@ Job* job = worker->get_job_pool()->create_job(&empty_job);
     
     auto start1 = std::chrono::steady_clock::now();
     
-     Job* parent = worker->get_job_pool()->create_job(&empty_job);
+     Job* parent = worker->create_job(&empty_job);
     for(std::size_t i = 0; i <JOB_COUNT-1; ++i)
     {
-       Job* job = worker->get_job_pool()->create_job_as_child(&empty_job,parent);
+       Job* job = worker->create_job_as_child(&empty_job,parent);
     
        worker->submit_job(job);
     }

@@ -10,10 +10,16 @@ class JobSystem{
     ~JobSystem();
     JobWorker* get_random_worker();
     JobWorker* master_worker ;
+    
+    private: 
+     JobWorker* find_thread_worker(const std::thread::id thread_id);
     private:
     std::vector<JobWorker> workers;
-     std::thread::id master_thread_id;
-    JobWorker* find_thread_worker(const std::thread::id thread_id);
+    std::thread::id master_thread_id;
+   
+  
+   
+ 
 };
 
 #endif
