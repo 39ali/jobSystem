@@ -24,7 +24,7 @@ JobSystem job_system {8,JOB_COUNT
 JobWorker* worker = job_system.master_worker;
 
     
-#if 1
+#if 0
 auto start = std::chrono::steady_clock::now();
 for(std::size_t i = 0; i <JOB_COUNT; ++i)
 {
