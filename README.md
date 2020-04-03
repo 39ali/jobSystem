@@ -10,7 +10,10 @@ Building
 -------------
 `
 mkdir build
+
 cd build
+
 cmake ..
+
  `
 this would build the provided example .
