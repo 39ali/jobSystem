@@ -3,12 +3,14 @@
 
 #include "jobWorker.h"
 #include "jobSystem.h"
-
+#include <iostream>
 JobWorker::JobWorker(JobSystem* jsystem, std::size_t maxJobs,Mode mode):
 job_system{jsystem},
 queue{maxJobs},
 pool{maxJobs},
-mode{mode}{
+mode{mode},
+state{State::Stopping}
+{
 
 }
 
@@ -24,14 +26,15 @@ mode{mode}{
 
 
 void JobWorker::run(){
+state = State::Running;
 worker_thread = std::thread(&JobWorker::loop,this);
 }
 
 
 
 void JobWorker::submit_job(Job* job){
-    printf("submited job\n");
-    queue.push(job);
+    if(job)
+        queue.push(job);
 }
 
 void JobWorker::loop(){
@@ -67,21 +70,24 @@ Job* JobWorker::get_job(){
    return job;
     }
     else{
-        JobWorker* worker =  
+        JobWorker* worker =
                             job_system->get_random_worker();
         if(worker!=this && worker){
-            Job* job = worker->queue.steal();
+          //  std::cout<< "trying to steal a job"<< std::endl;
+            Job* job =  worker->queue.steal();
             if(job)
             {
+               //  std::cout<< "job steal"<< std::endl;
             return job;
             }
             else{ //no job to steal
-                
+              //   std::cout<< "no job to steal"<< std::endl;
                 std::this_thread::yield();
                 return nullptr;
             }
         }else
         {
+           //   std::cout<< "no worker to steal from"<< std::endl;
             std::this_thread::yield();
             return nullptr;
         }

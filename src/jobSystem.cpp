@@ -8,6 +8,7 @@ JobSystem::JobSystem(std::size_t worker_threads_count , std::size_t jobs_per_thr
     std::size_t jobs_per_queue = jobs_per_thread;
     workers.emplace_back(this,jobs_per_queue,JobWorker::Mode::Master);
     master_worker = &workers[0];
+    master_worker->set_state(JobWorker::State::Running);
     for (std::size_t i=1;i< worker_threads_count;i++)
     {
         workers.emplace_back(this,jobs_per_queue,JobWorker::Mode::Background);
@@ -24,7 +25,7 @@ JobSystem::~JobSystem(){
     std::size_t worker_threads_count = workers.size();
    for (std::size_t i=1;i< worker_threads_count;i++)
     {
-        workers[i].set_state(JobWorker::State::stopping);
+        workers[i].set_state(JobWorker::State::Stopping);
     } 
    for (std::size_t i=1;i< worker_threads_count;i++)
     {
@@ -33,11 +34,12 @@ JobSystem::~JobSystem(){
 }
 
  JobWorker* JobSystem::get_random_worker(){
-      std::uniform_int_distribution<std::size_t> dist{0, workers.size()};
+      std::uniform_int_distribution<std::size_t> dist{0, workers.size()-1};
     std::default_random_engine randomEngine{std::random_device()()};
 
-    JobWorker* worker = &workers[dist(randomEngine)];
-
+     int index =0 ; //dist(randomEngine);
+    JobWorker* worker = &workers[index];
+    
     if(worker->is_running())
     {
         return worker;

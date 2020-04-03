@@ -15,7 +15,7 @@ class JobQueue{
 
     private : 
     std::vector< Job*> jobs ; 
-    std::atomic<std::size_t> top, bottom ; 
+    std::atomic<int> top, bottom ; 
 };
 
 #endif

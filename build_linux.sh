@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cmake -S . -B ./build
+cmake  -DCMAKE_BUILD_TYPE=Release -S . -B ./build 
 make -C ./build
 ./build/jobSystem

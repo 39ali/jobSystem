@@ -14,7 +14,7 @@ class JobWorker{
     };
     enum class State{
         Running,
-        stopping,
+        Stopping,
     };
 
     JobWorker(JobSystem* jsystem, std::size_t maxJobs,Mode mode= Mode::Background);
@@ -33,13 +33,15 @@ class JobWorker{
     inline void join(){worker_thread.join();}
     private:
     JobPool pool;
-    JobQueue queue;
+  
     std::thread::id thread_id;
     std::thread worker_thread;
     State state;
     std::atomic<Mode> mode;
     JobSystem* job_system;
 
+public:
+      JobQueue queue;
 private:    
     Job* get_job();
 
