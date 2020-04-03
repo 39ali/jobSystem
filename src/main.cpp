@@ -24,12 +24,12 @@ JobSystem job_system {8,JOB_COUNT
 JobWorker* worker = job_system.master_worker;
 
     
-#if 0
+#if 1
 auto start = std::chrono::steady_clock::now();
 for(std::size_t i = 0; i <JOB_COUNT; ++i)
 {
 
-Job* job = worker->get_job_pool()->create_job(&empty_job);
+Job* job = worker->create_job(&empty_job);
    worker->submit_job(job);
    worker->wait(job);
 }
