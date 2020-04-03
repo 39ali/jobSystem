@@ -8,12 +8,9 @@ based on Molecular's great blog [post](https://blog.molecular-matters.com/2015/0
 
 Building 
 -------------
-`
+```
 mkdir build
-
 cd build
-
 cmake ..
-
- `
+```
 this would build the provided example .
